@@ -11,3 +11,8 @@ const router = Router();
 router.post("/register", authLimiter, validate(registerSchema), catchAsync(register));
 router.post("/login", authLimiter, validate(loginSchema), catchAsync(login));
 router.get("/me", protect, catchAsync(me));
+
+
+export default router;
+
+

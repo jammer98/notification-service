@@ -2,7 +2,7 @@ import { registerUser, loginUser, getUserById } from "../services/auth.service.j
 
 
 export async function register(req,res){
-    const { user, token } = await registerUser(req.boody);
+    const { user, token } = await registerUser(req.body);
     res.status(201).json({ user, token });
 }
 

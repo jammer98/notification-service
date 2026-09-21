@@ -12,7 +12,7 @@ function signToken(userId){
     });
 }
 
-export async function registerUser({ name, email, password }){
+export async function registerUser(  { name, email, password } ){
     const paswordHash = await bcrypt.hash(password, 10);
     try {
         const { rows } = await pool.query(

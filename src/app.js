@@ -5,7 +5,9 @@ import { httpLogger } from "./middlewares/logger.middleware.js";
 import { notFound, errorHandler } from "./middlewares/error.middleware.js";
 import { globalLimiter } from "./middlewares/rateLimit.middleware.js";
 import { AppError } from "./utils/AppError.js";
-import healthRoutes from "./routes/health.routes.js"
+import healthRoutes from "./routes/health.routes.js";
+import authRoutes from "./routes/auth.routes.js";
+import eventRoutes from "./routes/event.routes.js";
 
 const app = express();
 
@@ -31,6 +33,9 @@ const allowedOrigins = (process.env.CORS_ORIGINS || "")
 
   app.use(globalLimiter);
   app.use(express.json({ limit: "16kb" }));
+
+  app.use("/api/auth", authRoutes);
+  app.use("/api/events",eventRoutes);
 
   app.use(notFound);
   app.use(errorHandler);
