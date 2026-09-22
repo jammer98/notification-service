@@ -30,12 +30,13 @@ const allowedOrigins = (process.env.CORS_ORIGINS || "")
   app.use(httpLogger);
 
   app.use("/api/health",healthRoutes);
+  app.use("/api/events",eventRoutes);
 
   app.use(globalLimiter);
   app.use(express.json({ limit: "16kb" }));
 
   app.use("/api/auth", authRoutes);
-  app.use("/api/events",eventRoutes);
+
 
   app.use(notFound);
   app.use(errorHandler);

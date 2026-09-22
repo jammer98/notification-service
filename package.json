@@ -7,6 +7,7 @@
     "dev": "node --watch index.js",
     "dev:worker": "node --watch worker.js",
     "start": "node index.js",
+    "queue:status": "node scripts/queueStatus.js",
     "start:worker": "node worker.js",
     "create:key": "node scripts/createApiKey.js",
     "check": "node scripts/checkConnections.js"

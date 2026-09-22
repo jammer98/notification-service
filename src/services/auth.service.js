@@ -13,12 +13,12 @@ function signToken(userId){
 }
 
 export async function registerUser(  { name, email, password } ){
-    const paswordHash = await bcrypt.hash(password, 10);
+    const passwordHash = await bcrypt.hash(password, 10);
     try {
         const { rows } = await pool.query(
             `INSERT INTO users (name,email,password_hash)
             VALUES ($1, $2, $3) RETURNING id, name, email,created_at`,
-            [name,email,paswordHash]
+            [name,email,passwordHash]
         );
         const user = rows[0];
         logger.info({ userId: user.id }, "user Regsitered");

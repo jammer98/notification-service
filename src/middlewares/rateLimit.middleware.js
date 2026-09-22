@@ -22,3 +22,12 @@ export const authLimiter = rateLimit({
   skipSuccessfulRequests: true,
   message: "Too many failed attempts, please try again in 15 minutes",
 });
+
+// Producers are services, not browsers, so they get a per-API-key budget instead of a per-IP one
+export const producerLimiter = rateLimit({
+  ...base,
+  windowMs: 60 * 1000,
+  limit: 300,
+  keyGenerator: (req) => `producer-${req.producer.id}`,
+  message: "Rate limit exceeded for this API key",
+});
