@@ -14,9 +14,7 @@ async function getEnabledChannels(userId, type){
         return ALL_CHANNELS.filter((c) => !disabled.has(c));
     }
 
-
-
-    async function insertNotification ({ producer, event, idempotencyKey, channels }){
+async function insertNotification ({ producer, event, idempotencyKey, channels }){
         const client = await pool.connect();
 
         try{
