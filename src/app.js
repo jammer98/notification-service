@@ -8,6 +8,7 @@ import { AppError } from "./utils/AppError.js";
 import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import eventRoutes from "./routes/event.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
 
 const app = express();
 
@@ -29,8 +30,9 @@ const allowedOrigins = (process.env.CORS_ORIGINS || "")
   );
   app.use(httpLogger);
 
-  app.use("/api/health",healthRoutes);
-  app.use("/api/events",eventRoutes);
+  app.use("/api/health", healthRoutes);
+  app.use("/api/events", eventRoutes);
+  app.use("/api/notifications", notificationRoutes);
 
   app.use(globalLimiter);
   app.use(express.json({ limit: "16kb" }));

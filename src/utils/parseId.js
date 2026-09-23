@@ -1,4 +1,4 @@
-import { AppError } from "./AppError";
+import { AppError } from "./AppError.js";
 
 export function parseId(value, label = "id"){
     const id = Number(value);

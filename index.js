@@ -5,9 +5,13 @@ import pool from "./src/config/db.js";
 import { createRedisConnection } from "./src/config/redis.js";
 import logger from "./src/utils/logger.js";
 import { notificationQueue } from "./src/queues/notification.queue.js";
+import { initSockts } from "./src/sockets/index.js";
 
 const server = http.createServer(app);
 const port = process.env.PORT || 4001;
+
+
+let sockets;
 
 async function start(){
     try {
@@ -18,6 +22,8 @@ async function start(){
         await redis.ping();
         redis.disconnect();
         logger.info("redis Connected");
+
+        sockets = await initSockts(server);
         server.listen(port, () => logger.info(`API listening on port ${port}`));
 
     } catch (err) {
@@ -29,6 +35,7 @@ async function start(){
 function shutdown(signal) {
   logger.info({ signal }, "Shutting down");
   server.close(async () => {
+    if(sockets) await sockets.close();
     await notificationQueue.close();
     await pool.end();
     process.exit(0);
