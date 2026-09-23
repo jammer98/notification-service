@@ -9,6 +9,7 @@ import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import eventRoutes from "./routes/event.routes.js";
 import notificationRoutes from "./routes/notification.routes.js";
+import preferenceRoutes from "./routes/prefernces.routes.js";
 
 const app = express();
 
@@ -33,6 +34,7 @@ const allowedOrigins = (process.env.CORS_ORIGINS || "")
   app.use("/api/health", healthRoutes);
   app.use("/api/events", eventRoutes);
   app.use("/api/notifications", notificationRoutes);
+  app.use("/api/preferences", preferenceRoutes);
 
   app.use(globalLimiter);
   app.use(express.json({ limit: "16kb" }));
