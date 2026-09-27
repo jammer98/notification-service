@@ -1,0 +1,54 @@
+services:
+  api:
+    build: .
+    ports:
+      - "4001:4001"
+    environment:
+      PORT: 4001
+      DATABASE_URI: postgresql://postgres:devpassword@postgres:5432/notification_system
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: dev-secret-change-in-prod-0000
+      JWT_EXPIRES_IN: 7d
+      CORS_ORIGINS: http://localhost:5173,http://localhost:3000
+      LOG_LEVEL: info
+      NODE_ENV: production
+    depends_on:
+      - postgres
+      - redis
+
+  worker:
+    build: .
+    command: ["node", "worker.js"]
+    environment:
+      DATABASE_URI: postgresql://postgres:devpassword@postgres:5432/notification_system
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: dev-secret-change-in-prod-0000,
+      SMTP_HOST: smtp.ethereal.email
+      SMTP_PORT: 587
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      MAIL_FROM: "Notifications <no-reply@example.com>"
+      LOG_LEVEL: info
+      NODE_ENV: production
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: notification_system
+    ports:
+      - "5435:5432"
+    volumes:
+      - pgdata_notifications:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"
+
+volumes:
+  pgdata_notifications:

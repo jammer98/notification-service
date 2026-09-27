@@ -1,7 +1,7 @@
 import { Router } from "express";
 import express from "express";
 import { catchAsync } from "../utils/catchAsync.js";
-import { requireApiKey } from "../middlewares/apiKey.middleware.js";
+import { requireApiKey } from "../middlewares/apikey.middleware.js";
 import { producerLimiter } from "../middlewares/rateLimit.middleware.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import { createEventSchema } from "../validators/event.validators.js";

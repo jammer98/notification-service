@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node --watch index.js",
+    "migrate": "node-pg-migrate -d DATABASE_URI",
     "dev:worker": "node --watch worker.js",
     "start": "node index.js",
     "queue:status": "node scripts/queueStatus.js",
@@ -37,6 +38,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "node-pg-migrate": "^9.0.0",
     "pino-pretty": "^13.1.3",
     "socket.io-client": "^4.8.3"
   }

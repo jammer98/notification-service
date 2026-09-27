@@ -5,7 +5,7 @@ import { createRedisConnection } from "../config/redis.js";
 import logger from "../utils/logger.js";
 
 export async function initSockts(httpServer){
-    const allowedOrigins = (process.env.CORS_ORIGIN || "")
+    const allowedOrigins = (process.env.CORS_ORIGINS || "")
     .split(",")
     .map((O) => O.trim())
     .filter(Boolean);
@@ -39,7 +39,7 @@ export async function initSockts(httpServer){
         socket.join(room);
         logger.info({ userId: socket.userId, socketId: socket.id}, "Socket connected");
 
-        socket.on("disconnected", (reason) => {
+        socket.on("disconnect", (reason) => {
             logger.info({ userId:socket.userId, socketId: socket.id, reason }, "Socket disconnected");
         });
     });
