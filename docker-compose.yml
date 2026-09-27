@@ -22,12 +22,12 @@ services:
     environment:
       DATABASE_URI: postgresql://postgres:devpassword@postgres:5432/notification_system
       REDIS_URL: redis://redis:6379
-      JWT_SECRET: dev-secret-change-in-prod-0000,
-      SMTP_HOST: smtp.ethereal.email
-      SMTP_PORT: 587
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
       SMTP_USER: ${SMTP_USER}
       SMTP_PASS: ${SMTP_PASS}
-      MAIL_FROM: "Notifications <no-reply@example.com>"
+      MAIL_FROM: ${MAIL_FROM}
+      JWT_SECRET: dev-secret-change-in-prod-0000
       LOG_LEVEL: info
       NODE_ENV: production
     depends_on:

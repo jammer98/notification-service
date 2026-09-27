@@ -32,11 +32,10 @@ async function markSent(deliveryId){
 
 async function markAttemptFailed(deliveryId, errorMessage) {
     await pool.query(
-        `UPDATE deliveries SET attempts = attempts + 1, last_error = $2 WHERE id = %1`,
-        [deliveryId,errorMessage.slice(0,500)]
+        `UPDATE deliveries SET attempts = attempts + 1, last_error = $2 WHERE id = $1`,
+        [deliveryId, (errorMessage ?? "Unknown error").slice(0, 500)]
     );
 }
-
 
 export async function processNotificationJob(job){
     const { notificationId } = job.data;
@@ -60,7 +59,7 @@ export async function processNotificationJob(job){
             await markSent(delivery.id);
             logger.info({ notificationId, channel: delivery.channel }, "Delivered");
         } catch (err) {
-            await markAttemptFailed(delivery.id, err.mesaage);
+            await markAttemptFailed(delivery.id, err.message);
             logger.warn(
                 { notificationId, channel : delivery.channel, err: err.message },
                 "Delivery attempt failed"
