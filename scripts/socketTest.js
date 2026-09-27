@@ -8,7 +8,11 @@ if (!token) {
 }
 
 
-const socket = io(`http://localhost:${process.env.PORT || 4001}`, { auth: { token } });
+
+
+const url = process.argv[3] || `http://localhost:${process.env.PORT || 4001}`;
+const socket = io(url, { auth: { token } });
+
 
 socket.on("connect", () => console.log("Connected:", socket.id));
 socket.on("connect_error", (err) => console.error("Connection failed:", err.message));

@@ -1,12 +1,17 @@
-import { logPreviewUrl, transporter } from "../../config/mailer.js";
+import { resend } from "../../config/mailer.js";
+import logger from "../../utils/logger.js";
 
 export async function deliveryEmail(notification) {
-    const info = await transporter.sendMail({
-        from:process.env.MAIL_FROM,
-        to:notification.user_email,
-        subject: notification.title,
-        text: notification.body,
-    });
+  const { data, error } = await resend.emails.send({
+    from: process.env.MAIL_FROM,
+    to: notification.user_email,
+    subject: notification.title,
+    text: notification.body,
+  });
 
-    logPreviewUrl(info);
+  if (error) {
+    throw new Error(error.message); // worker's existing retry/backoff handles this
+  }
+
+  logger.info({ emailId: data.id }, "Email sent via Resend API");
 }

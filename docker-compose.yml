@@ -22,10 +22,7 @@ services:
     environment:
       DATABASE_URI: postgresql://postgres:devpassword@postgres:5432/notification_system
       REDIS_URL: redis://redis:6379
-      SMTP_HOST: ${SMTP_HOST}
-      SMTP_PORT: ${SMTP_PORT}
-      SMTP_USER: ${SMTP_USER}
-      SMTP_PASS: ${SMTP_PASS}
+      RESEND_API_KEY: ${RESEND_API_KEY}
       MAIL_FROM: ${MAIL_FROM}
       JWT_SECRET: dev-secret-change-in-prod-0000
       LOG_LEVEL: info
