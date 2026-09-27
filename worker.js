@@ -6,7 +6,7 @@ import { processNotificationJob } from "./src/workers/notification.worker.js"
 import { verifyMailer } from "./src/config/mailer.js"
 import pool from "./src/config/db.js"
 import logger from "./src/utils/logger.js"
-
+import http from "node:http";
 
 let worker;
 
@@ -24,6 +24,14 @@ async function handleJobFailed(job, err) {
         logger.error({ notificationId: job.data.notificationId }, "Notification permanently failed");
     }
 }
+
+const healthPort = process.env.PORT || 10000;
+http
+  .createServer((req, res) => {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("worker ok");
+  })
+  .listen(healthPort, () => logger.info(`Worker health endpoint listening on port ${healthPort}`));
 
 async function start (){
     try {
